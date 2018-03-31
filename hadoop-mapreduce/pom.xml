@@ -13,6 +13,13 @@
 
     <dependencies>
         <dependency>
+            <!-- Hadoop main client artifact -->
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+
+        <dependency>
             <!-- MR Unit -->
             <groupId>org.apache.mrunit</groupId>
             <artifactId>mrunit</artifactId>
