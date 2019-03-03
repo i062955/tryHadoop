@@ -1,9 +1,5 @@
 package com.songwy.hadoop.mapreduce;
 
-import java.io.IOException;
-
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 
 public class NcdcRecordParser {
