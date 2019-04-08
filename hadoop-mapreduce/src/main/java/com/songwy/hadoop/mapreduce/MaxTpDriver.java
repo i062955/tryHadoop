@@ -17,7 +17,10 @@ public class MaxTpDriver extends Configured implements Tool {
             System.err.printf("Usage: %s [generic options] <input path> <output path>",
                 getClass().getSimpleName());
             ToolRunner.printGenericCommandUsage(System.err);
-            return -1;
+            String defau[] = new String[2];
+            defau[0] = "hadoop-mapreduce/data/1901";
+            defau[1] = "hadoop-mapreduce/output";
+            return this.run(defau);
         }
 
         Job job = new Job(getConf(), "Max temperature");

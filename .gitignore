@@ -1,0 +1,8 @@
+.project
+.settings/
+.vscode/
+*/.project
+*/.settings
+*/.classpath
+hadoop-avro/target/
+hadoop-mapreduce/target/

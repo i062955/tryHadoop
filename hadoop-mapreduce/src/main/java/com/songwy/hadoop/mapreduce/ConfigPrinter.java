@@ -1,6 +1,5 @@
 package com.songwy.hadoop.mapreduce;
 
-import java.io.IOException;
 import java.util.*;
 
 import org.apache.hadoop.conf.*;
@@ -25,8 +24,9 @@ public class ConfigPrinter extends Configured implements Tool {
         return 0;
     }
 
-    public static void main(String[] args) throws Exception {
+/*    public static void main(String[] args) throws Exception {
         int exitCode = ToolRunner.run(new ConfigPrinter(), args);
         System.exit(exitCode);
     }
+*/    
 }
