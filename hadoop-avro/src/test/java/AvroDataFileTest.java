@@ -13,6 +13,58 @@ import com.songwy.hadoop.avro.AvroDataFile;
 
 public class AvroDataFileTest {
 
+    protected ArrayList<GenericRecord> createProducts(Schema schema) {
+        ArrayList<GenericRecord> products = new ArrayList<GenericRecord>();
+
+        GenericRecord product1 = new GenericData.Record(schema);
+        product1.put("product_name", "Event Stream Processor");
+        product1.put("product_seris", "COMMON");
+        product1.put("product_alias", "ESP");
+
+        Schema priceSchema = createPriceSchema();
+
+        GenericRecord price1 = createPrice (priceSchema, "Single", 1);
+        product1.put("product_price", price1);
+
+        products.add(product1);
+
+        GenericRecord product2 = new GenericData.Record(schema);
+        product2.put("product_name", "Smart Hana Streaming");
+        product2.put("product_seris", "GOLD");
+        product2.put("product_alias", "SDS");
+
+        GenericRecord price2 = createPrice (priceSchema, "Cluster", 22);
+        product2.put("product_price", price2);
+
+        products.add(product2);
+
+        return products;
+    }
+
+    protected Schema createPriceSchema() {
+        String[] names = {"model", "price"};
+        String[] types = {"string", "int"};
+
+        SchemaBuilder.FieldAssembler<Schema> fields = SchemaBuilder.record("SDSAvroAdapter").fields();
+
+        for (int i=0; i < types.length; ++i) {
+            if (types[i].equalsIgnoreCase("string")) {
+                fields = fields.name(names[i]).type().nullable().stringType().noDefault();
+            }else if (types[i].equalsIgnoreCase("int")){
+                fields = fields.name(names[i]).type().nullable().intType().noDefault();
+            }
+        }
+        Schema schema = fields.endRecord();
+        return schema;
+    }
+
+    protected GenericRecord createPrice(Schema schema, String model, int price){
+        GenericRecord result = new GenericData.Record(schema);
+        result.put("model", model);
+        result.put("price", price);
+        return result;
+    }
+
     protected ArrayList<GenericRecord> createUsers(Schema schema) {
         ArrayList<GenericRecord> users = new ArrayList<GenericRecord>();
 
@@ -50,12 +102,21 @@ public class AvroDataFileTest {
     @Test
     public void writeReadAvroFileTest() {
         AvroDataFile tester = new AvroDataFile();
-//        Schema writerSchema = tester.createSchema("user.avsc");
-        Schema writerSchema = createSchema();
+        Schema writerSchema = tester.getWriteSchema("product.avsc");
+        System.out.println("Create Schema " + writerSchema);
+        System.out.println();
 
-        String outputFile = "user.avso";
+        //Schema writerSchema = createSchema();
+
+        String outputFile = "test.avro";
         try {
-            tester.serialize(writerSchema, createUsers(writerSchema), outputFile);
+            ArrayList<GenericRecord> products = createProducts(writerSchema);
+            System.out.println("Create products: " + products);
+            System.out.println();
+
+            tester.serialize(writerSchema, products, outputFile);
+
+            //tester.serialize(writerSchema, createUsers(writerSchema), outputFile);
             System.out.println("Serialized AVRO data into file: " + outputFile);
             System.out.println();
 

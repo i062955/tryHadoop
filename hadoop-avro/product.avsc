@@ -1,0 +1,18 @@
+{
+    "type": "record",
+    "name":"products",
+    "fields": [
+        {"name": "product_seris", "type": "string"},
+        {"name": "product_name",  "type": "string"},
+        {"name": "product_alias", "type": "string"},
+        {"name": "product_price", "type": {
+            "type": "record",
+            "name": "price",
+            "fields": [
+                {"name": "model", "type": "string"},
+                {"name": "price", "type": "int"}
+            ]}
+        }
+
+    ]
+}

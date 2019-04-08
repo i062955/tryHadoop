@@ -23,11 +23,13 @@ public class AvroDataFile {
     public void serialize(Schema schema, ArrayList<GenericRecord> records, String filename) throws Exception {
         File file = new File(filename);
         DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
+
         DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<GenericRecord>(datumWriter);
         dataFileWriter.create(schema, file);
 
         for (GenericRecord record: records) {
             dataFileWriter.append(record);
+            System.out.println("Append Record: " + record);
         }
 
         dataFileWriter.close();
@@ -68,7 +70,7 @@ public class AvroDataFile {
         }
         return schema;
     }
-    
+
     public Schema getWriteSchema (String avscFileName){
         File schema = new File(avscFileName);
         try {
